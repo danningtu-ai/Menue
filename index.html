@@ -1,164 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>两人食光</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #fff7ed;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+    .card {
+      max-width: 720px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    h1 {
+      color: #e76f51;
+    }
+    button {
+      background: #e76f51;
+      color: white;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">二人家庭饮食计划</p>
-      <h1>两人食光</h1>
-    </div>
-    <div class="budget-box">
-      <span>本月预算</span>
-      <button class="budget-edit" id="budgetButton" title="修改月预算">
-        <strong id="budgetValue">¥2,500</strong>
-        <span aria-hidden="true">✎</span>
-      </button>
-    </div>
-  </header>
-
-  <nav class="tabs" aria-label="主要页面">
-    <button class="tab active" data-view="plan">本周菜单</button>
-    <button class="tab" data-view="dishes">我的菜库</button>
-    <button class="tab" data-view="report">月度报告</button>
-  </nav>
-
-  <main>
-    <section class="view active" id="planView">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker" id="weekRange"></p>
-          <h2>一周吃什么</h2>
-        </div>
-        <button class="primary" id="regenerateButton"><span aria-hidden="true">↻</span> 重新搭配</button>
-      </div>
-
-      <div class="budget-progress" id="budgetPanel">
-        <div class="budget-row">
-          <span id="budgetStatus">预算充足</span>
-          <strong id="monthlyEstimate">预计 ¥0 / ¥2,500</strong>
-        </div>
-        <div class="progress-track"><span id="budgetBar"></span></div>
-      </div>
-
-      <div class="review-bar" id="reviewBar">
-        <div>
-          <span class="review-dot" aria-hidden="true"></span>
-          <div><strong id="reviewTitle">本周菜单待确认</strong><small id="reviewHint">确认后就可以按清单采购</small></div>
-        </div>
-        <div class="review-actions">
-          <button class="secondary" id="adjustPlanButton">不接受，调整菜单</button>
-          <button class="primary" id="acceptPlanButton">接受本周菜单</button>
-        </div>
-      </div>
-
-      <div class="meal-table-wrap">
-        <table class="meal-table">
-          <thead><tr><th>日期</th><th>午餐 · 简单</th><th>晚餐 · 荤菜</th><th>晚餐 · 素菜</th></tr></thead>
-          <tbody id="mealRows"></tbody>
-        </table>
-      </div>
-
-      <section class="shopping-section">
-        <div class="section-heading compact">
-          <div>
-            <p class="section-kicker">按菜整体计价</p>
-            <h2>本周菜品费用</h2>
-          </div>
-          <button class="secondary" id="copyButton"><span aria-hidden="true">⧉</span> 复制费用清单</button>
-        </div>
-        <div class="shopping-summary">
-          <span><strong id="ingredientCount">0</strong> 道菜</span>
-          <span>本周合计 <strong id="weeklyTotal">¥0</strong></span>
-        </div>
-        <div class="pricing-notice" id="pricingNotice"></div>
-        <div class="expense-list" id="ingredientList"></div>
-      </section>
-    </section>
-
-    <section class="view" id="dishesView">
-      <div class="section-heading">
-        <div><p class="section-kicker">你的口味，由你决定</p><h2>我的菜库</h2></div>
-        <button class="primary" id="addDishButton"><span aria-hidden="true">＋</span> 添加菜品</button>
-      </div>
-      <section class="recommendation-section">
-        <div class="recommendation-heading">
-          <div><p class="section-kicker">每周更新 · 加入前需确认</p><h3>本周推荐 5 道</h3></div>
-          <span id="recommendationWeek"></span>
-        </div>
-        <div class="recommendation-grid" id="recommendationGrid"></div>
-      </section>
-      <div class="filter-bar" id="dishFilters">
-        <button class="filter active" data-filter="all">全部</button>
-        <button class="filter" data-filter="lunch">简餐</button>
-        <button class="filter" data-filter="meat">荤菜</button>
-        <button class="filter" data-filter="vegetable">素菜</button>
-      </div>
-      <div class="dish-grid" id="dishGrid"></div>
-    </section>
-
-    <section class="view" id="reportView">
-      <div class="section-heading">
-        <div><p class="section-kicker" id="reportMonth"></p><h2>月度饮食报告</h2></div>
-      </div>
-      <div class="report-stats">
-        <div class="stat"><span>本月预计花费</span><strong id="reportSpend">¥0</strong><small id="reportBudgetText"></small></div>
-        <div class="stat"><span>已安排餐次</span><strong id="reportMeals">0</strong><small>午餐与晚餐合计</small></div>
-        <div class="stat"><span>菜品丰富度</span><strong id="reportVariety">0</strong><small>种不同菜品</small></div>
-      </div>
-      <div class="report-layout">
-        <section class="report-panel">
-          <h3>菜品频次</h3>
-          <div id="frequencyList" class="frequency-list"></div>
-        </section>
-        <section class="report-panel feedback-panel">
-          <h3>下个月想怎么调整？</h3>
-          <p>记录口味、预算或搭配上的想法，下次生成菜单时会保留。</p>
-          <textarea id="feedbackInput" rows="7" placeholder="例如：少吃辣；增加鱼类；周三午餐想更简单……"></textarea>
-          <button class="primary" id="saveFeedbackButton">保存意见</button>
-          <small id="feedbackSaved"></small>
-        </section>
-      </div>
-    </section>
-  </main>
-
-  <dialog id="dishDialog">
-    <form method="dialog" id="dishForm">
-      <div class="dialog-head"><h2 id="dialogTitle">添加菜品</h2><button value="cancel" class="icon-button" title="关闭" aria-label="关闭">×</button></div>
-      <label>菜名<input name="name" required maxlength="30" placeholder="例如：清蒸鲈鱼"></label>
-      <label>类型<select name="type" required><option value="lunch">简餐</option><option value="meat">荤菜</option><option value="vegetable">素菜</option></select></label>
-      <label>烹饪方法<select name="cookingMethod" required><option value="">请选择</option><option value="预制">预制</option><option value="空气炸锅">空气炸锅</option><option value="烹饪">烹饪</option></select></label>
-      <label>两人份整体价格（元）<input name="price" type="number" min="0" step="0.1" required placeholder="例如：35"></label>
-      <div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button value="default" class="primary" id="saveDishButton">保存菜品</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="budgetDialog">
-    <form method="dialog" id="budgetForm">
-      <div class="dialog-head"><h2>修改月预算</h2><button value="cancel" class="icon-button" title="关闭" aria-label="关闭">×</button></div>
-      <label>每月餐饮预算（元）<input name="budget" type="number" min="100" step="100" required></label>
-      <p class="form-note">菜单会根据新预算重新判断是否超支。</p>
-      <div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button value="default" class="primary" id="saveBudgetButton">保存预算</button></div>
-    </form>
-  </dialog>
-
-  <dialog id="replaceDialog">
-    <form method="dialog" id="replaceForm">
-      <div class="dialog-head"><div><p class="section-kicker" id="replaceSlotLabel"></p><h2>调整这道菜</h2></div><button value="cancel" class="icon-button" title="关闭" aria-label="关闭">×</button></div>
-      <label>从菜库选择<select name="dishId" id="replacementDishSelect"></select></label>
-      <div class="or-divider"><span>或</span></div>
-      <label>添加一道新菜<input name="newDishName" maxlength="30" placeholder="输入新菜名，将自动加入菜库"></label>
-      <p class="form-note">新菜会按当前餐别归类，食材与价格可稍后在菜库中补充。</p>
-      <div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button value="default" class="primary" id="saveReplacementButton">确认替换</button></div>
-    </form>
-  </dialog>
-
-  <div class="toast" id="toast" role="status"></div>
-  <script src="app.js"></script>
+  <div class="card">
+    <h1>两人食光</h1>
+    <h2>一周吃什么</h2>
+    <p>这里可以放你的菜单、食谱、随机推荐功能。</p>
+    <button onclick="alert('今天吃番茄牛腩饭！')">随机推荐</button>
+  </div>
 </body>
 </html>
