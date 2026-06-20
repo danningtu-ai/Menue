@@ -1,44 +1,18 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>两人食光</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #fff7ed;
-      margin: 0;
-      padding: 40px;
-      color: #333;
-    }
-    .card {
-      max-width: 720px;
-      margin: auto;
-      background: white;
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    h1 {
-      color: #e76f51;
-    }
-    button {
-      background: #e76f51;
-      color: white;
-      border: 0;
-      padding: 12px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>两人食光</h1>
-    <h2>一周吃什么</h2>
-    <p>这里可以放你的菜单、食谱、随机推荐功能。</p>
-    <button onclick="alert('今天吃番茄牛腩饭！')">随机推荐</button>
-  </div>
-</body>
-</html>
+# 两人食光
+
+面向二人家庭的本地饮食计划工具。直接打开 `index.html` 即可使用。
+
+功能包括：
+
+- 按菜库自动生成每天的简餐午餐和一荤一素晚餐
+- 接受整周菜单，或进入调整模式逐道替换菜品
+- 调整菜单时输入新菜名，会自动加入对应菜库
+- 为菜品选择“预制”“空气炸锅”或“烹饪”，午餐优先前两类
+- 晚餐荤菜和素菜只使用“烹饪”标签的菜
+- 在菜库中维护每道菜的两人份整体价格
+- 按菜名、次数、单价和小计汇总本周费用
+- 按月预算显示预计花费和超支提醒
+- 月报统计菜品频次、餐次、丰富度和调整意见
+- 浏览器本地保存菜库、预算和反馈
+
+菜库已按海鲜、鸡肉与蛋、猪肉、牛肉、主食和素菜分类。系统每周展示 5 道口味相近的候选菜，只有点击“确认加入”后才会进入正式菜库。未设置整体价格的菜不会被误计入预算，可在“我的菜库”中编辑补齐。
